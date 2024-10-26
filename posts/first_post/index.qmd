@@ -1,0 +1,9 @@
+---
+title: "My first blog post"
+author: "Teun van den Brand"
+date: "2024-10-26"
+categories: [news]
+---
+
+This is my first post testing out the quarto blogging system.
+It has no interesting things in here, but if you're snooping regardless: welcome, enjoy the mess!
