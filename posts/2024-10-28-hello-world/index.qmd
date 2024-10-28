@@ -1,0 +1,34 @@
+---
+title: "Hello world"
+author: "Teun van den Brand"
+description: "Wherein I introduce myself"
+date: "2024-10-28"
+categories: [news]
+---
+
+I've never been a big blogger, so setting up my own blog is a bit of an unfamiliar process.
+As you are reading these words, I must have had achieved this goal despite inexperience.
+
+At the time of writing, you might have stumbled upon this bloggy looking page through my activity coding in the R language.
+I suppose that in the future, this blog will serve some less fleeting, medium-form communication need from me to the rest of the world.
+I now think it will be mostly about R programming, data visualisation and ggplot2. 
+But I certainly don't know what the future holds.
+These communications will neither be perfect nor complete, but that shouldn't stymy me from stirring up these word salads, nor stymy you from lurking about on the internet.
+
+Aside from [a](https://www.tidyverse.org/blog/2024/02/ggplot2-3-5-0/) [few](https://www.tidyverse.org/blog/2024/02/ggplot2-3-5-0-legends/) [guest](https://www.tidyverse.org/blog/2024/02/ggplot2-3-5-0-axes/) [posts](https://www.tidyverse.org/blog/2024/03/ggplot2-3-5-0-coord-radial/) in another place, this is my first solo post and as such, I suppose some introduction is in order.
+Hello, my name is Teun[^teun] van den Brand, I live in Amsterdam, The Netherlands and have been coding in R since 2017.
+Previously, I've worked as a PhD student/researcher doing computational work in the analysis of chromatin biology in the lab of [Elzo de Wit](https://www.nki.nl/research/research-groups/elzo-de-wit/).
+Essentially I've looked at a lot of DNA sequencing data from assays on chromatin folding and organisation, which I analysed mostly in R.
+
+[^teun]: Teun (/tøːn/) is a very Dutch name and pronounced similar to how one would say 'tewn' or 'tuwn' in English. You can hear somebody say it  [here](https://en.wiktionary.org/wiki/File:Nl-Teun.ogg)
+
+During this time, I've whipped up my fair share of scientific data visualisations in regular reporting, presentations and publications.
+I liked this part a lot. 
+You can clearly see how differently an audience responds to a thought-out figure versus a data-dump of a figure.
+It engages the audience more, regardless of the obscurity of your field, which will yield more sharp-witted questions and relevant feedback for you.
+Naturally, this had put me into the orbit of ggplot2 as the most widely recognised visualisation paradigm in the R programming language.
+What started as a personal cookbook for wrangling ggplot2 figures in the exact shape I needed, turned into a collection of hacks mud-wrestling about under ggplot2's hood, which eventually grew out to the extension package [ggh4x](https://teunbrand.github.io/ggh4x/).
+It perfectly fits the cliché that somebody's first package is a 'miscellaneous' package.
+
+Somehow [Thomas](https://www.data-imaginist.com/about), who maintains ggplot2, must have noticed that my rummaging was sufficiently useful to offer me the opportunity to do this full time.
+So that is the way I've stumbled from ggplot2's orbit to landing a paid gig to do what I already loved doing.
