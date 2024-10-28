@@ -2,7 +2,8 @@ project:
   type: website
 
 website:
-  title: "Teun's Blog"
+  title: "**Blog** | Teun van den Brand"
+  site-url: https://teunbrand.github.io/teunbrand_blog/
   navbar:
     right:
       - about.qmd
@@ -12,7 +13,7 @@ website:
         href: https://twitter.com
 format:
   html:
-    theme: cosmo
+    theme: spacelab
     css: styles.css
 
 
