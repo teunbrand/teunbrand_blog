@@ -10,7 +10,637 @@
 <atom:link href="https://teunbrand.github.io/teunbrand_blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Thu, 31 Oct 2024 23:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 13 Dec 2024 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>On bubbles and trees</title>
+  <dc:creator>Teun van den Brand</dc:creator>
+  <link>https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I now have the awkward pride of announcing a fresh update to an already new package, barely a month after its release. On the one hand I did a little bit of future-proofing, hopefully preventing it from being kicked out of CRAN in the next half year. On the other hand, I also developed a few features that I’m excited to share!</p>
+<section id="bubbles" class="level2">
+<h2 class="anchored" data-anchor-id="bubbles">Bubbles</h2>
+<p>The first thing I’d like to parade around is a new standalone guide for the <code>size</code> aesthetic. The <code>guide_circles()</code> function lets you build a guide that displays the size of points as a series of rings. Simultaneously is source of frustration, but also a neat thing is that this guide uses actual points drawn by the layer glyph function. Taking the correct measurements of points and aligning them was a bit fussy to develop, but at least for circular points, it should work as you’d expect!</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(legendry)</span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; Loading required package: ggplot2</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4">gapminder<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>gapminder <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-5">  dplyr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(year <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(year)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb1-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(gdpPercap, lifeExp, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> pop, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> continent)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">21</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_size_area</span>(</span>
+<span id="cb1-9">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Note that we need irregular breaks because we scale area, not radius</span></span>
+<span id="cb1-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">limits =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">max_size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>,</span>
+<span id="cb1-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">breaks =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">500</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e6</span>,</span>
+<span id="cb1-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"100M"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"500M"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1B"</span>),</span>
+<span id="cb1-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">guide  =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_circles</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">vjust =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb1-14">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_log10</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb1-17">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GDP per capita"</span>,</span>
+<span id="cb1-18">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Life expectancy"</span>,</span>
+<span id="cb1-19">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Continent"</span>,</span>
+<span id="cb1-20">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Population"</span></span>
+<span id="cb1-21">  )</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I hasten to mention that I’m not the first to develop such a guide, but I think that this is the first version that is implemented as a ggplot2 guide. See <a href="https://cran.r-project.org/web/packages/scatterpie/vignettes/scatterpie.html">scatterpie</a> or <a href="https://riatelab.github.io/mapsf/#usage">mapsf</a> for other implementations.</p>
+</section>
+<section id="trees" class="level2">
+<h2 class="anchored" data-anchor-id="trees">Trees</h2>
+<p>The next addition in this release is a guide for dendrograms. There are plenty of better packages to plot dendrograms for the sake of dendrograms, like <a href="https://cran.r-project.org/package=dendextend">dendextend</a>. Instead, legendry now has a new scale/guide pair whose job it is to display dendrograms as axis annotations. I’ve personally enjoyed these annotations in combination with heatmaps.</p>
+<p>The new scales <code>scale_x_dendro()</code> and <code>scale_y_dendro()</code> accept a <code>&lt;hclust&gt;</code> object generated from the eponymous function. The scale itself just ensure that discrete categories are sorted by the dendrogram order.</p>
+<p>It is the guide that comes with these scales, <code>guide_axis_dendro()</code> that does the heavy lifting of actually displaying the dendrogram.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">car_cor <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cor</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">t</span>(mtcars), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"spearman"</span>)</span>
+<span id="cb2-2">car_clusters <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">hclust</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.dist</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> car_cor))</span>
+<span id="cb2-3"></span>
+<span id="cb2-4">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> reshape2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">melt</span>(car_cor)</span>
+<span id="cb2-5"></span>
+<span id="cb2-6">p <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(Var1, Var2, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> value)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_tile</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_fill_viridis_c</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_dendro</span>(car_clusters, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">guide =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_dendro</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_y_dendro</span>(car_clusters) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cars"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cars"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">expression</span>(rho<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">^</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x.sec =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">angle =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>))</span>
+<span id="cb2-13"></span>
+<span id="cb2-14">p <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_fixed</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You may correctly point out that a similar thing already exists in the ggh4x package. The primary difference is that <code>guide_axis_dendro()</code> uses legendry’s gimmicks, such as <a href="https://teunbrand.github.io/legendry/articles/guide_composition.html">composed guides</a>. This implies both that it is build on the newer guide system introduced in ggplot2 3.5.0 and that it works well with <code>coord_radial()</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(mtcars, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rownames</span>(mtcars), mpg)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_col</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_radial</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inner.radius =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">expand =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_dendro</span>(car_clusters) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(</span>
+<span id="cb3-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theta =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_base</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">angle =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>),</span>
+<span id="cb3-8">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theta.sec =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_dendro</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>),</span>
+<span id="cb3-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">r =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span></span>
+<span id="cb3-10">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">plot.margin =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">margin</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">t =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">b =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In one of the <em>very</em> rare cases that a secondary theta axis can be useful, the dendrogram guide can be placed in the center of polar plots. These shennanigans make it easy to create visualisation like radiating <a href="https://commons.wikimedia.org/wiki/File:Phylogenetic_Tree_of_Life.png">phylogenetic trees</a>.</p>
+<p>With all of that wrapped up, all that is left is wishing you all happy holidays!</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Session info</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">si <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> sessioninfo<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">session_info</span>()</span>
+<span id="cb4-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Deidentifying paths on my personal machine</span></span>
+<span id="cb4-3">si<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>packages<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>library <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="cb4-4">si<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>platform<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>pandoc <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="cb4-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">print</span>(si)</span>
+<span id="cb4-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></span>
+<span id="cb4-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  setting  value</span></span>
+<span id="cb4-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  version  R version 4.4.2 (2024-10-31 ucrt)</span></span>
+<span id="cb4-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  os       Windows 11 x64 (build 22631)</span></span>
+<span id="cb4-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  system   x86_64, mingw32</span></span>
+<span id="cb4-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  ui       RTerm</span></span>
+<span id="cb4-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  language (EN)</span></span>
+<span id="cb4-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  collate  English_Netherlands.utf8</span></span>
+<span id="cb4-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  ctype    English_Netherlands.utf8</span></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  tz       Europe/Amsterdam</span></span>
+<span id="cb4-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  date     2024-12-14</span></span>
+<span id="cb4-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; </span></span>
+<span id="cb4-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></span>
+<span id="cb4-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  package     * version  date (UTC) lib source</span></span>
+<span id="cb4-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  cli           3.6.3    2024-06-21 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  colorspace    2.1-1    2024-07-26 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  digest        0.6.37   2024-08-19 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  dplyr         1.1.4    2023-11-17 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  evaluate      1.0.1    2024-10-10 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-25"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  fansi         1.0.6    2023-12-08 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-26"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  farver        2.1.2    2024-05-13 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-27"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  fastmap       1.2.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-28"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  gapminder     1.0.0    2023-03-10 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-29"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  generics      0.1.3    2022-07-05 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-30"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  ggplot2     * 3.5.1    2024-04-23 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-31"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  glue          1.8.0    2024-09-30 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-32"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  gtable        0.3.6    2024-10-25 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-33"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  htmltools     0.5.8.1  2024-04-04 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-34"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  htmlwidgets   1.6.4    2023-12-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-35"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  jsonlite      1.8.9    2024-09-20 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-36"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  knitr         1.49     2024-11-08 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-37"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  labeling      0.4.3    2023-08-29 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-38"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  legendry    * 0.2.0    2024-12-14 []  local</span></span>
+<span id="cb4-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  lifecycle     1.0.4    2023-11-07 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-40"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  magrittr      2.0.3    2022-03-30 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-41"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  munsell       0.5.1    2024-04-01 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-42"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  pillar        1.9.0    2023-03-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-43"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  pkgconfig     2.0.3    2019-09-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-44"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  plyr          1.8.9    2023-10-02 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-45"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  R6            2.5.1    2021-08-19 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-46"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  ragg          1.3.3    2024-09-11 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-47"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  Rcpp          1.0.13-1 2024-11-02 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-48"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  reshape2      1.4.4    2020-04-09 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-49"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  rlang         1.1.4    2024-06-04 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-50"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  rmarkdown     2.29     2024-11-04 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-51"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  rstudioapi    0.17.1   2024-10-22 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-52"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  scales        1.3.0    2023-11-28 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-53"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  sessioninfo   1.2.2    2021-12-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-54"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  stringi       1.8.4    2024-05-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-55"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  stringr       1.5.1    2023-11-14 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-56"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  systemfonts   1.1.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-57"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  textshaping   0.4.1    2024-12-06 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-58"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  tibble        3.2.1    2023-03-20 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-59"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  tidyselect    1.2.1    2024-03-11 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-60"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  utf8          1.2.4    2023-10-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-61"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  vctrs         0.6.5    2023-12-01 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-62"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  viridisLite   0.4.2    2023-05-02 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-63"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  withr         3.0.2    2024-10-28 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-64"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  xfun          0.49     2024-10-31 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-65"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  yaml          2.3.10   2024-07-26 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-66"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; </span></span>
+<span id="cb4-67"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; </span></span>
+<span id="cb4-68"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; ──────────────────────────────────────────────────────────────────────────────</span></span></code></pre></div>
+</details>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>package</category>
+  <category>update</category>
+  <guid>https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/</guid>
+  <pubDate>Fri, 13 Dec 2024 23:00:00 GMT</pubDate>
+  <media:content url="https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/pexels-hert-3224164-smaller.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Guidance for legendry</title>
   <dc:creator>Teun van den Brand</dc:creator>

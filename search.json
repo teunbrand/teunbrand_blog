@@ -1,5 +1,54 @@
 [
   {
+    "objectID": "posts/2024-12-14-legendry-0-2-0/index.html",
+    "href": "posts/2024-12-14-legendry-0-2-0/index.html",
+    "title": "On bubbles and trees",
+    "section": "",
+    "text": "I now have the awkward pride of announcing a fresh update to an already new package, barely a month after its release. On the one hand I did a little bit of future-proofing, hopefully preventing it from being kicked out of CRAN in the next half year. On the other hand, I also developed a few features that I’m excited to share!"
+  },
+  {
+    "objectID": "posts/2024-12-14-legendry-0-2-0/index.html#bubbles",
+    "href": "posts/2024-12-14-legendry-0-2-0/index.html#bubbles",
+    "title": "On bubbles and trees",
+    "section": "Bubbles",
+    "text": "Bubbles\nThe first thing I’d like to parade around is a new standalone guide for the size aesthetic. The guide_circles() function lets you build a guide that displays the size of points as a series of rings. Simultaneously is source of frustration, but also a neat thing is that this guide uses actual points drawn by the layer glyph function. Taking the correct measurements of points and aligning them was a bit fussy to develop, but at least for circular points, it should work as you’d expect!\n\n\nCode\nlibrary(legendry)\n#&gt; Loading required package: ggplot2\n\ngapminder::gapminder |&gt;\n  dplyr::filter(year == max(year)) |&gt;\n  ggplot(aes(gdpPercap, lifeExp, size = pop, fill = continent)) +\n  geom_point(shape = 21) +\n  scale_size_area(\n    # Note that we need irregular breaks because we scale area, not radius\n    limits = c(0, NA), max_size = 20,\n    breaks = c(0, 100, 500, 1000)*1e6,\n    labels = c(0, \"100M\", \"500M\", \"1B\"),\n    guide  = guide_circles(vjust = 1)\n  ) +\n  scale_x_log10() +\n  labs(\n    x = \"GDP per capita\",\n    y = \"Life expectancy\",\n    fill = \"Continent\",\n    size = \"Population\"\n  )\n\n\n\n\n\n\n\n\n\nI hasten to mention that I’m not the first to develop such a guide, but I think that this is the first version that is implemented as a ggplot2 guide. See scatterpie or mapsf for other implementations."
+  },
+  {
+    "objectID": "posts/2024-12-14-legendry-0-2-0/index.html#trees",
+    "href": "posts/2024-12-14-legendry-0-2-0/index.html#trees",
+    "title": "On bubbles and trees",
+    "section": "Trees",
+    "text": "Trees\nThe next addition in this release is a guide for dendrograms. There are plenty of better packages to plot dendrograms for the sake of dendrograms, like dendextend. Instead, legendry now has a new scale/guide pair whose job it is to display dendrograms as axis annotations. I’ve personally enjoyed these annotations in combination with heatmaps.\nThe new scales scale_x_dendro() and scale_y_dendro() accept a &lt;hclust&gt; object generated from the eponymous function. The scale itself just ensure that discrete categories are sorted by the dendrogram order.\nIt is the guide that comes with these scales, guide_axis_dendro() that does the heavy lifting of actually displaying the dendrogram.\n\n\nCode\ncar_cor &lt;- cor(t(mtcars), method = \"spearman\")\ncar_clusters &lt;- hclust(as.dist(1 - car_cor))\n\ndata &lt;- reshape2::melt(car_cor)\n\np &lt;- ggplot(data, aes(Var1, Var2, fill = value)) +\n  geom_tile() +\n  scale_fill_viridis_c() +\n  scale_x_dendro(car_clusters, guide = guide_axis_dendro(labels = FALSE)) +\n  scale_y_dendro(car_clusters) +\n  labs(x = \"Cars\", y = \"Cars\", fill = expression(rho^2)) +\n  guides(x.sec = guide_axis(angle = 90))\n\np + coord_fixed()\n\n\n\n\n\n\n\n\n\nYou may correctly point out that a similar thing already exists in the ggh4x package. The primary difference is that guide_axis_dendro() uses legendry’s gimmicks, such as composed guides. This implies both that it is build on the newer guide system introduced in ggplot2 3.5.0 and that it works well with coord_radial().\n\n\nCode\nggplot(mtcars, aes(rownames(mtcars), mpg)) +\n  geom_col(width = 1) +\n  coord_radial(inner.radius = 0.5, expand = FALSE) +\n  labs(x = NULL, y = NULL) +\n  scale_x_dendro(car_clusters) +\n  guides(\n    theta = guide_axis_base(angle = 90),\n    theta.sec = guide_axis_dendro(labels = FALSE),\n    r = \"none\"\n  ) +\n  theme(plot.margin = margin(t = 50, b = 50))\n\n\n\n\n\n\n\n\n\nIn one of the very rare cases that a secondary theta axis can be useful, the dendrogram guide can be placed in the center of polar plots. These shennanigans make it easy to create visualisation like radiating phylogenetic trees.\nWith all of that wrapped up, all that is left is wishing you all happy holidays!\n\n\nSession info\nsi &lt;- sessioninfo::session_info()\n# Deidentifying paths on my personal machine\nsi$packages$library &lt;- NULL\nsi$platform$pandoc &lt;- NULL\nprint(si)\n#&gt; ─ Session info ───────────────────────────────────────────────────────────────\n#&gt;  setting  value\n#&gt;  version  R version 4.4.2 (2024-10-31 ucrt)\n#&gt;  os       Windows 11 x64 (build 22631)\n#&gt;  system   x86_64, mingw32\n#&gt;  ui       RTerm\n#&gt;  language (EN)\n#&gt;  collate  English_Netherlands.utf8\n#&gt;  ctype    English_Netherlands.utf8\n#&gt;  tz       Europe/Amsterdam\n#&gt;  date     2024-12-14\n#&gt; \n#&gt; ─ Packages ───────────────────────────────────────────────────────────────────\n#&gt;  package     * version  date (UTC) lib source\n#&gt;  cli           3.6.3    2024-06-21 []  CRAN (R 4.4.1)\n#&gt;  colorspace    2.1-1    2024-07-26 []  CRAN (R 4.4.1)\n#&gt;  digest        0.6.37   2024-08-19 []  CRAN (R 4.4.1)\n#&gt;  dplyr         1.1.4    2023-11-17 []  CRAN (R 4.4.0)\n#&gt;  evaluate      1.0.1    2024-10-10 []  CRAN (R 4.4.1)\n#&gt;  fansi         1.0.6    2023-12-08 []  CRAN (R 4.4.0)\n#&gt;  farver        2.1.2    2024-05-13 []  CRAN (R 4.4.0)\n#&gt;  fastmap       1.2.0    2024-05-15 []  CRAN (R 4.4.0)\n#&gt;  gapminder     1.0.0    2023-03-10 []  CRAN (R 4.4.1)\n#&gt;  generics      0.1.3    2022-07-05 []  CRAN (R 4.4.0)\n#&gt;  ggplot2     * 3.5.1    2024-04-23 []  CRAN (R 4.4.2)\n#&gt;  glue          1.8.0    2024-09-30 []  CRAN (R 4.4.1)\n#&gt;  gtable        0.3.6    2024-10-25 []  CRAN (R 4.4.1)\n#&gt;  htmltools     0.5.8.1  2024-04-04 []  CRAN (R 4.4.0)\n#&gt;  htmlwidgets   1.6.4    2023-12-06 []  CRAN (R 4.4.0)\n#&gt;  jsonlite      1.8.9    2024-09-20 []  CRAN (R 4.4.1)\n#&gt;  knitr         1.49     2024-11-08 []  CRAN (R 4.4.2)\n#&gt;  labeling      0.4.3    2023-08-29 []  CRAN (R 4.4.0)\n#&gt;  legendry    * 0.2.0    2024-12-14 []  local\n#&gt;  lifecycle     1.0.4    2023-11-07 []  CRAN (R 4.4.0)\n#&gt;  magrittr      2.0.3    2022-03-30 []  CRAN (R 4.4.0)\n#&gt;  munsell       0.5.1    2024-04-01 []  CRAN (R 4.4.0)\n#&gt;  pillar        1.9.0    2023-03-22 []  CRAN (R 4.4.0)\n#&gt;  pkgconfig     2.0.3    2019-09-22 []  CRAN (R 4.4.0)\n#&gt;  plyr          1.8.9    2023-10-02 []  CRAN (R 4.4.0)\n#&gt;  R6            2.5.1    2021-08-19 []  CRAN (R 4.4.0)\n#&gt;  ragg          1.3.3    2024-09-11 []  CRAN (R 4.4.1)\n#&gt;  Rcpp          1.0.13-1 2024-11-02 []  CRAN (R 4.4.2)\n#&gt;  reshape2      1.4.4    2020-04-09 []  CRAN (R 4.4.0)\n#&gt;  rlang         1.1.4    2024-06-04 []  CRAN (R 4.4.0)\n#&gt;  rmarkdown     2.29     2024-11-04 []  CRAN (R 4.4.2)\n#&gt;  rstudioapi    0.17.1   2024-10-22 []  CRAN (R 4.4.1)\n#&gt;  scales        1.3.0    2023-11-28 []  CRAN (R 4.4.2)\n#&gt;  sessioninfo   1.2.2    2021-12-06 []  CRAN (R 4.4.0)\n#&gt;  stringi       1.8.4    2024-05-06 []  CRAN (R 4.4.0)\n#&gt;  stringr       1.5.1    2023-11-14 []  CRAN (R 4.4.0)\n#&gt;  systemfonts   1.1.0    2024-05-15 []  CRAN (R 4.4.0)\n#&gt;  textshaping   0.4.1    2024-12-06 []  CRAN (R 4.4.2)\n#&gt;  tibble        3.2.1    2023-03-20 []  CRAN (R 4.4.0)\n#&gt;  tidyselect    1.2.1    2024-03-11 []  CRAN (R 4.4.0)\n#&gt;  utf8          1.2.4    2023-10-22 []  CRAN (R 4.4.0)\n#&gt;  vctrs         0.6.5    2023-12-01 []  CRAN (R 4.4.0)\n#&gt;  viridisLite   0.4.2    2023-05-02 []  CRAN (R 4.4.0)\n#&gt;  withr         3.0.2    2024-10-28 []  CRAN (R 4.4.1)\n#&gt;  xfun          0.49     2024-10-31 []  CRAN (R 4.4.1)\n#&gt;  yaml          2.3.10   2024-07-26 []  CRAN (R 4.4.1)\n#&gt; \n#&gt; \n#&gt; ──────────────────────────────────────────────────────────────────────────────"
+  },
+  {
+    "objectID": "posts/2024-10-28-hello-world/index.html",
+    "href": "posts/2024-10-28-hello-world/index.html",
+    "title": "Hello world",
+    "section": "",
+    "text": "I’ve never been a big blogger, so setting up my own blog is a bit of an unfamiliar process. As you are reading these words, I must have had achieved this goal despite inexperience.\nAt the time of writing, you might have stumbled upon this bloggy looking page through my activity coding in the R language. I suppose that in the future, this blog will serve some less fleeting, medium-form communication need from me to the rest of the world. I now think it will be mostly about R programming, data visualisation and ggplot2. But I certainly don’t know what the future holds. These communications will neither be perfect nor complete, but that shouldn’t stymy me from stirring up these word salads, nor stymy you from lurking about on the internet.\nAside from a few guest posts in another place, this is my first solo post and as such, I suppose some introduction is in order. Hello, my name is Teun1 van den Brand, I live in Amsterdam, The Netherlands and have been coding in R since 2017. Previously, I’ve worked as a PhD student/researcher doing computational work in the analysis of chromatin biology in the lab of Elzo de Wit. Essentially I’ve looked at a lot of DNA sequencing data from assays on chromatin folding and organisation, which I analysed mostly in R.\nDuring this time, I’ve whipped up my fair share of scientific data visualisations in regular reporting, presentations and publications. I liked this part a lot. You can clearly see how differently an audience responds to a thought-out figure versus a data-dump of a figure. It engages the audience more, regardless of the obscurity of your field, which will yield more sharp-witted questions and relevant feedback for you. Naturally, this had put me into the orbit of ggplot2 as the most widely recognised visualisation paradigm in the R programming language. What started as a personal cookbook for wrangling ggplot2 figures in the exact shape I needed, turned into a collection of hacks mud-wrestling about under ggplot2’s hood, which eventually grew out to the extension package ggh4x. It perfectly fits the cliché that somebody’s first package is a ‘miscellaneous’ package.\nSomehow Thomas, who maintains ggplot2, must have noticed that my rummaging was sufficiently useful to offer me the opportunity to do this full time. So that is the way I’ve stumbled from ggplot2’s orbit to landing a paid gig to do what I already loved doing."
+  },
+  {
+    "objectID": "posts/2024-10-28-hello-world/index.html#footnotes",
+    "href": "posts/2024-10-28-hello-world/index.html#footnotes",
+    "title": "Hello world",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nTeun (/tøːn/) is a very Dutch name and pronounced similar to how one would say ‘tewn’ or ‘tuwn’ in English. You can hear somebody say it here↩︎"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Teun van den Brand is a consultant based in Amsterdam, the Netherlands. He currently works on open source tools for data visualisation, specifically ggplot2 in the R language for Posit, PBC."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Overview",
+    "section": "",
+    "text": "On bubbles and trees\n\n\n\n\n\n\npackage\n\n\nupdate\n\n\n\nAnnouncing two more guides joining the family.\n\n\n\n\n\nDec 14, 2024\n\n\nTeun van den Brand\n\n\n\n\n\n\n\n\n\n\n\n\nGuidance for legendry\n\n\n\n\n\n\npackage\n\n\nannouncement\n\n\n\nWherein I announce a new package to expand your arsenal of guides\n\n\n\n\n\nNov 1, 2024\n\n\nTeun van den Brand\n\n\n\n\n\n\n\n\n\n\n\n\nHello world\n\n\n\n\n\n\nnews\n\n\n\nWherein I introduce myself\n\n\n\n\n\nOct 28, 2024\n\n\nTeun van den Brand\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "posts/2024-11-01-legendry-0-1-0/index.html",
     "href": "posts/2024-11-01-legendry-0-1-0/index.html",
     "title": "Guidance for legendry",
@@ -26,33 +75,5 @@
     "title": "Guidance for legendry",
     "section": "Future",
     "text": "Future\nThe package is now in a usable state, which is reflected in its release to CRAN. My hope is that together with people in the ggplot2 community, we can expand the set of guides even further! Should you find any bugs or have good ideas, the issue tracker on GitHub is the place where I track these.\nI’m looking forward to seeing some legendary plots out in the wilds!"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Overview",
-    "section": "",
-    "text": "Guidance for legendry\n\n\n\n\n\n\npackage\n\n\nannouncement\n\n\n\nWherein I announce a new package to expand your arsenal of guides\n\n\n\n\n\nNov 1, 2024\n\n\nTeun van den Brand\n\n\n\n\n\n\n\n\n\n\n\n\nHello world\n\n\n\n\n\n\nnews\n\n\n\nWherein I introduce myself\n\n\n\n\n\nOct 28, 2024\n\n\nTeun van den Brand\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Teun van den Brand is a consultant based in Amsterdam, the Netherlands. He currently works on open source tools for data visualisation, specifically ggplot2 in the R language for Posit, PBC."
-  },
-  {
-    "objectID": "posts/2024-10-28-hello-world/index.html",
-    "href": "posts/2024-10-28-hello-world/index.html",
-    "title": "Hello world",
-    "section": "",
-    "text": "I’ve never been a big blogger, so setting up my own blog is a bit of an unfamiliar process. As you are reading these words, I must have had achieved this goal despite inexperience.\nAt the time of writing, you might have stumbled upon this bloggy looking page through my activity coding in the R language. I suppose that in the future, this blog will serve some less fleeting, medium-form communication need from me to the rest of the world. I now think it will be mostly about R programming, data visualisation and ggplot2. But I certainly don’t know what the future holds. These communications will neither be perfect nor complete, but that shouldn’t stymy me from stirring up these word salads, nor stymy you from lurking about on the internet.\nAside from a few guest posts in another place, this is my first solo post and as such, I suppose some introduction is in order. Hello, my name is Teun1 van den Brand, I live in Amsterdam, The Netherlands and have been coding in R since 2017. Previously, I’ve worked as a PhD student/researcher doing computational work in the analysis of chromatin biology in the lab of Elzo de Wit. Essentially I’ve looked at a lot of DNA sequencing data from assays on chromatin folding and organisation, which I analysed mostly in R.\nDuring this time, I’ve whipped up my fair share of scientific data visualisations in regular reporting, presentations and publications. I liked this part a lot. You can clearly see how differently an audience responds to a thought-out figure versus a data-dump of a figure. It engages the audience more, regardless of the obscurity of your field, which will yield more sharp-witted questions and relevant feedback for you. Naturally, this had put me into the orbit of ggplot2 as the most widely recognised visualisation paradigm in the R programming language. What started as a personal cookbook for wrangling ggplot2 figures in the exact shape I needed, turned into a collection of hacks mud-wrestling about under ggplot2’s hood, which eventually grew out to the extension package ggh4x. It perfectly fits the cliché that somebody’s first package is a ‘miscellaneous’ package.\nSomehow Thomas, who maintains ggplot2, must have noticed that my rummaging was sufficiently useful to offer me the opportunity to do this full time. So that is the way I’ve stumbled from ggplot2’s orbit to landing a paid gig to do what I already loved doing."
-  },
-  {
-    "objectID": "posts/2024-10-28-hello-world/index.html#footnotes",
-    "href": "posts/2024-10-28-hello-world/index.html#footnotes",
-    "title": "Hello world",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nTeun (/tøːn/) is a very Dutch name and pronounced similar to how one would say ‘tewn’ or ‘tuwn’ in English. You can hear somebody say it here↩︎"
   }
 ]

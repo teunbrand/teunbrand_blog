@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://teunbrand.github.io/teunbrand_blog/posts/2024-11-01-legendry-0-1-0/index.html</loc>
-    <lastmod>2024-11-01T16:25:51.657Z</lastmod>
+    <loc>https://teunbrand.github.io/teunbrand_blog/posts/2024-12-14-legendry-0-2-0/index.html</loc>
+    <lastmod>2024-12-14T11:19:29.128Z</lastmod>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/teunbrand_blog/index.html</loc>
-    <lastmod>2024-10-28T22:08:45.340Z</lastmod>
+    <loc>https://teunbrand.github.io/teunbrand_blog/posts/2024-10-28-hello-world/index.html</loc>
+    <lastmod>2024-10-28T20:24:58.832Z</lastmod>
   </url>
   <url>
     <loc>https://teunbrand.github.io/teunbrand_blog/about.html</loc>
     <lastmod>2024-10-28T21:23:36.768Z</lastmod>
   </url>
   <url>
-    <loc>https://teunbrand.github.io/teunbrand_blog/posts/2024-10-28-hello-world/index.html</loc>
-    <lastmod>2024-10-28T20:24:58.832Z</lastmod>
+    <loc>https://teunbrand.github.io/teunbrand_blog/index.html</loc>
+    <lastmod>2024-10-28T22:08:45.340Z</lastmod>
+  </url>
+  <url>
+    <loc>https://teunbrand.github.io/teunbrand_blog/posts/2024-11-01-legendry-0-1-0/index.html</loc>
+    <lastmod>2024-11-01T16:25:51.657Z</lastmod>
   </url>
 </urlset>
