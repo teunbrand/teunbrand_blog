@@ -9,8 +9,800 @@
 <link>https://teunbrand.github.io/teunbrand_blog/</link>
 <atom:link href="https://teunbrand.github.io/teunbrand_blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.57</generator>
-<lastBuildDate>Fri, 13 Dec 2024 23:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.35</generator>
+<lastBuildDate>Mon, 11 May 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Symbolic update</title>
+  <dc:creator>Teun van den Brand</dc:creator>
+  <link>https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="column-screen-right image-credit">
+<p>Photo by <a href="https://www.pexels.com/photo/connect-four-toy-on-table-8762743/">Kevin Malik</a> on pexels</p>
+</div>
+<p>As you may have noticed from my deluge of posts across the past year: it has been a while for one of these. This time around, I’m swinging by to announce that legendry 0.3.0 has nestled itself on CRAN! I’ll be going over some of the new stuff, and some old stuff that is accruing in legendry. I’ll not wax poetically about all of them, so let’s quickly go to the plotting bits of the post.</p>
+<section id="side-plot" class="level2">
+<h2 class="anchored" data-anchor-id="side-plot">Side plot</h2>
+<p>Arriving at the truly new stuff, the is now <code>guide_axis_plot()</code>. The main thing the guide does is trying to harmonise the shared axes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(legendry)</span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; Loading required package: ggplot2</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4">side_plot <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb1-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(species, body_mass, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> species) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_boxplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n.dodge =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="cb1-8"></span>
+<span id="cb1-9">main_plot <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(penguins) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(bill_dep, body_mass, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> species) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">main_plot <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_plot</span>(side_plot, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unit</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cm"</span>)))</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you had noticed ‘hey, that looks what the ggside package is doing’, then you observe sharply. The main difference is that ggside has luxurious geometries, scales and layout management that make it all come together nicely. In contrast <code>guide_axis_plot()</code> is limited by what fits into a guide, and may misalign things outside the panel area; like titles in the side plot, or long axis labels. But, it does not depend on anybody implementing geometries or scales for it, so there is a little bit of freedom in that.</p>
+</section>
+<section id="manual-legend" class="level2">
+<h2 class="anchored" data-anchor-id="manual-legend">Manual legend</h2>
+<p>It is an awkward position to make something and hope people won’t use it. I highly recommend you not use the next guide. Do the right thing and map your data correctly, I promise it is better that way. This guide is <em>only</em> for those moments when you’re pulling out your hair in trying to submit a legend to your will. The guide is <code>guide_legend_manual()</code>. It requires no (plot) layers. It requires no scales. Just the abandonment of sanity. You can tweak a whole bunch of things, like the aesthetics, what kind of layer are displayed, the usual theme settings. Essentially it is the <code>override.aes</code>+ of guides. Use it just to spare your scalp.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">anything =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_legend_manual</span>(</span>
+<span id="cb2-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Manual legend"</span>),</span>
+<span id="cb2-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"absolutely"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nothing"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"maps"</span>),</span>
+<span id="cb2-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dodgerblue"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"limegreen"</span>),</span>
+<span id="cb2-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">layers =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_boxplot</span>(), <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">21</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>))</span>
+<span id="cb2-7">  ))</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dont-be-upset-with-me" class="level2">
+<h2 class="anchored" data-anchor-id="dont-be-upset-with-me">Don’t be upset with me</h2>
+<p>I’ve always found the graphical idiom of the ‘upset plot’ aptly named.<sup>1</sup> Not because it levels up display of sets, but because it upsets me. The best thing about upset plots, is that they are slightly less bad than Venn/Euler diagrams.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Pardon me the gnarly pre-processing</span></span>
+<span id="cb3-2">df <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> ggplot2movies<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>movies</span>
+<span id="cb3-3">genres <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.data.frame</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(</span>
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setNames</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nm =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Action"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Comedy"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Drama"</span>)), </span>
+<span id="cb3-5">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(i) {</span>
+<span id="cb3-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ifelse</span>(df[[i]] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, i, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>)</span>
+<span id="cb3-7">  }</span>
+<span id="cb3-8">))</span>
+<span id="cb3-9">df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>genres <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">apply</span>(genres, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(x) {</span>
+<span id="cb3-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste</span>(x[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nzchar</span>(x)], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">collapse =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">","</span>)</span>
+<span id="cb3-11">})</span>
+<span id="cb3-12"></span>
+<span id="cb3-13"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(df, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(genres)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"axis_upset"</span>)</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You might think: ‘hey this looks a lot like ggupset/UpsetR/ComplexUpset and others’, and once again: you’d observe sharply. The main thing is that implementing it as a guide doesn’t pidgeonhole your visualisation on other fronts. It doesn’t commit you to using specific geometries, particular scales scales or other systems.</p>
+<p>The main reason I wanted it though was it’s sister guide: <code>guide_axis_symbols()</code>. This is like a combination matrix of upset guides, but not even constrained by combinations. If I want to display my winning ‘connect four’ positions underneath my plot, I will.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">symbol_key <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">key_symbols</span>(</span>
+<span id="cb4-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">aesthetic =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)),</span>
+<span id="cb4-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">level =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>)),</span>
+<span id="cb4-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">symbol =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2 symbols</span></span>
+<span id="cb4-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span></span>
+<span id="cb4-6">)</span>
+<span id="cb4-7"></span>
+<span id="cb4-8"></span>
+<span id="cb4-9">connector <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb4-10">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Need these exact column names</span></span>
+<span id="cb4-11">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value_start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value_end =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>,</span>
+<span id="cb4-12">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">level_start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">level_end =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb4-13">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span></span>
+<span id="cb4-14">)</span>
+<span id="cb4-15"></span>
+<span id="cb4-16"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(df, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(genres)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_bar</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_symbols</span>(</span>
+<span id="cb4-19">    symbol_key, connector,</span>
+<span id="cb4-20">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">override.aes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gold"</span>)),</span>
+<span id="cb4-21">  ))</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While not very great for automatically inferring things from the scale, it does open up some possibilities. Here we can nail that classic ‘biomedical sciences look’ by using <code>+</code> and <code>−</code> to denote absence/presence of compounds.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">symbols <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">key_symbols</span>(</span>
+<span id="cb5-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">aesthetic =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>),</span>
+<span id="cb5-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">level =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"OJ"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"VC"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">each =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>),</span>
+<span id="cb5-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">symbol =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>))</span>
+<span id="cb5-5">)</span>
+<span id="cb5-6"></span>
+<span id="cb5-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(ToothGrowth) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">interaction</span>(dose, supp, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">","</span>), len) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_boxplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_x_discrete</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">labels =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">gsub</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">",.*"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>, .x)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compose_stack</span>(</span>
+<span id="cb5-12">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_symbols</span>(</span>
+<span id="cb5-13">      symbols, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">override.aes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"+"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"−"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)</span>
+<span id="cb5-14">    ),</span>
+<span id="cb5-15">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">primitive_labels</span>(),</span>
+<span id="cb5-16">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">side.titles =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dose"</span>)</span>
+<span id="cb5-17">  ))</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="annotation-axis" class="level2">
+<h2 class="anchored" data-anchor-id="annotation-axis">Annotation axis</h2>
+<p>Having indulged ourselves in all this wickedness, let’s get back down to earth. The <code>guide_axis_annotation()</code> function is a straightforward annotation function. It places extra labels at indicated positions. When in a primary position (bottom, left), it retains the regular axis and pops out beyond their labels. When in a secondary position, it is just the ticks and labels. It has convenience wrapper for the 4 standard positions: <code>annotate_top/right/bottom/left()</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(mpg, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(displ, hwy)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_vline</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xintercept =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">annotate_bottom</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.5</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Threshold"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">face =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bold"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">annotate_right</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>))</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One of the reasons I’ve build this annotation tool is because Stephan Edwards mentioned he aimed to retire the <a href="https://cran.r-project.org/package=lemon">lemon</a> package, and was discussing migrating lemon’s features to other packages. Since he build the original <code>lemon::annotate_{x/y}_axis()</code> functions, ggplot2’s guide system has moved forward. For that reason, I thought a legendry-flavoured re-implementation should use the modern tools available.</p>
+</section>
+<section id="key-settings" class="level2">
+<h2 class="anchored" data-anchor-id="key-settings">Key settings</h2>
+<p>This release, I’ve added some options to many keys to style their breaks. The premise is pretty simple, you can set options in the key functions, like <code>colour</code>, <code>linewidth</code> etc. When setting manual keys, you can have them in parallel to your breaks. But also for non-manual keys, you can use for styling. Graphical parameters that are shared between theme elements can be set distinctly. You can for example use <code>text_colour</code> which only applies to labels or <code>line_linewidth</code> which applies to lines, but not rectangles.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(mpg, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(displ, hwy)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guides</span>(</span>
+<span id="cb7-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_base</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">key =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">key_manual</span>(</span>
+<span id="cb7-5">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">aesthetic =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>), </span>
+<span id="cb7-6">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">colour =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"orange"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"turquoise"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"purple"</span>), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-7">    )),</span>
+<span id="cb7-8">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">guide_axis_base</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">key =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">key_auto</span>(</span>
+<span id="cb7-9">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">text_colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tomato"</span>,</span>
+<span id="cb7-10">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">line_colour =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"limegreen"</span></span>
+<span id="cb7-11">    ))</span>
+<span id="cb7-12">  )</span></code></pre></div></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alright, that is it for this release. I hope you’ll try some of these guides out!</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Thank you <a href="https://www.cynthiahqy.com/">Cynthia Huang</a> for introducing the ‘graphical idiom’ term to me↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>package</category>
+  <category>update</category>
+  <guid>https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/</guid>
+  <pubDate>Mon, 11 May 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://teunbrand.github.io/teunbrand_blog/posts/2026-05-12-legendry-0-3-0/pexels-kevin-malik-8762743.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>On bubbles and trees</title>
   <dc:creator>Teun van den Brand</dc:creator>
@@ -21,6 +813,9 @@
 
 
 
+<div class="column-screen-right image-credit">
+<p>Photo by <a href="https://www.pexels.com/photo/photo-of-christmas-balls-3224164/">Hert Niks</a> on pexels</p>
+</div>
 <p>I now have the awkward pride of announcing a fresh update to an already new package, barely a month after its release. On the one hand I did a little bit of future-proofing, hopefully preventing it from being kicked out of CRAN in the next half year. On the other hand, I also developed a few features that I’m excited to share!</p>
 <section id="bubbles" class="level2">
 <h2 class="anchored" data-anchor-id="bubbles">Bubbles</h2>
@@ -28,7 +823,7 @@
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(legendry)</span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -160,7 +955,7 @@ background-color: null;
 font-style: inherit;">size =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Population"</span></span>
-<span id="cb1-21">  )</span></code></pre></div>
+<span id="cb1-21">  )</span></code></pre></div></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -180,7 +975,7 @@ font-style: inherit;">"Population"</span></span>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">car_cor <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">car_cor <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -287,7 +1082,7 @@ font-style: inherit;">90</span>))</span>
 background-color: null;
 font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">coord_fixed</span>()</span></code></pre></div>
+font-style: inherit;">coord_fixed</span>()</span></code></pre></div></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -301,7 +1096,7 @@ font-style: inherit;">coord_fixed</span>()</span></code></pre></div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(mtcars, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -393,7 +1188,7 @@ font-style: inherit;">50</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">b =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">50</span>))</span></code></pre></div>
+font-style: inherit;">50</span>))</span></code></pre></div></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -408,7 +1203,7 @@ font-style: inherit;">50</span>))</span></code></pre></div>
 <div class="cell">
 <details class="code-fold">
 <summary>Session info</summary>
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">si <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">si <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> sessioninfo<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -417,8 +1212,20 @@ background-color: null;
 font-style: inherit;">session_info</span>()</span>
 <span id="cb4-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
+font-style: inherit;">#&gt; Warning in system2("quarto", "-V", stdout = TRUE, env = paste0("TMPDIR=", :</span></span>
+<span id="cb4-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; running command '"quarto"</span></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; TMPDIR=C:/Users/Teun/AppData/Local/Temp/RtmpyYnahV/filef87f0143dd -V' had</span></span>
+<span id="cb4-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; status 1</span></span>
+<span id="cb4-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
 font-style: inherit;"># Deidentifying paths on my personal machine</span></span>
-<span id="cb4-3">si<span class="sc" style="color: #5E5E5E;
+<span id="cb4-7">si<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>packages<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -427,7 +1234,7 @@ background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">NULL</span></span>
-<span id="cb4-4">si<span class="sc" style="color: #5E5E5E;
+<span id="cb4-8">si<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>platform<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -436,198 +1243,201 @@ background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">NULL</span></span>
-<span id="cb4-5"><span class="fu" style="color: #4758AB;
+<span id="cb4-9"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">print</span>(si)</span>
-<span id="cb4-6"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></span>
-<span id="cb4-7"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#&gt;  setting  value</span></span>
-<span id="cb4-8"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#&gt;  version  R version 4.4.2 (2024-10-31 ucrt)</span></span>
-<span id="cb4-9"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#&gt;  os       Windows 11 x64 (build 22631)</span></span>
 <span id="cb4-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  system   x86_64, mingw32</span></span>
+font-style: inherit;">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></span>
 <span id="cb4-11"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  ui       RTerm</span></span>
+font-style: inherit;">#&gt;  setting  value</span></span>
 <span id="cb4-12"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  language (EN)</span></span>
+font-style: inherit;">#&gt;  version  R version 4.6.0 (2026-04-24 ucrt)</span></span>
 <span id="cb4-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  collate  English_Netherlands.utf8</span></span>
+font-style: inherit;">#&gt;  os       Windows 11 x64 (build 26200)</span></span>
 <span id="cb4-14"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  ctype    English_Netherlands.utf8</span></span>
+font-style: inherit;">#&gt;  system   x86_64, mingw32</span></span>
 <span id="cb4-15"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  tz       Europe/Amsterdam</span></span>
+font-style: inherit;">#&gt;  ui       RTerm</span></span>
 <span id="cb4-16"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  date     2024-12-14</span></span>
+font-style: inherit;">#&gt;  language (EN)</span></span>
 <span id="cb4-17"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt; </span></span>
+font-style: inherit;">#&gt;  collate  English_United Kingdom.utf8</span></span>
 <span id="cb4-18"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></span>
+font-style: inherit;">#&gt;  ctype    English_United Kingdom.utf8</span></span>
 <span id="cb4-19"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  package     * version  date (UTC) lib source</span></span>
+font-style: inherit;">#&gt;  tz       Europe/Amsterdam</span></span>
 <span id="cb4-20"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  cli           3.6.3    2024-06-21 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  date     2026-05-13</span></span>
 <span id="cb4-21"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  colorspace    2.1-1    2024-07-26 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  quarto   NA @ C:\\Users\\Teun\\AppData\\Local\\Programs\\Quarto\\bin\\quarto.exe</span></span>
 <span id="cb4-22"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  digest        0.6.37   2024-08-19 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt; </span></span>
 <span id="cb4-23"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  dplyr         1.1.4    2023-11-17 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></span>
 <span id="cb4-24"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  evaluate      1.0.1    2024-10-10 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  package      * version    date (UTC) lib source</span></span>
 <span id="cb4-25"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  fansi         1.0.6    2023-12-08 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  cli            3.6.6      2026-04-09 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-26"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  farver        2.1.2    2024-05-13 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  digest         0.6.39     2025-11-19 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-27"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  fastmap       1.2.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  dplyr          1.2.1      2026-04-03 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-28"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  gapminder     1.0.0    2023-03-10 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  evaluate       1.0.5      2025-08-27 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-29"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  generics      0.1.3    2022-07-05 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  farver         2.1.2      2024-05-13 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-30"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  ggplot2     * 3.5.1    2024-04-23 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  fastmap        1.2.0      2024-05-15 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-31"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  glue          1.8.0    2024-09-30 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  gapminder      1.0.1      2025-06-12 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-32"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  gtable        0.3.6    2024-10-25 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  generics       0.1.4      2025-05-09 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-33"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  htmltools     0.5.8.1  2024-04-04 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  ggplot2      * 4.0.3.9000 2026-05-10 []  local</span></span>
 <span id="cb4-34"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  htmlwidgets   1.6.4    2023-12-06 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  glue           1.8.1      2026-04-17 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-35"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  jsonlite      1.8.9    2024-09-20 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  gtable         0.3.6      2024-10-25 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-36"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  knitr         1.49     2024-11-08 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  htmltools      0.5.9      2025-12-04 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-37"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  labeling      0.4.3    2023-08-29 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  htmlwidgets    1.6.4      2023-12-06 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-38"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  legendry    * 0.2.0    2024-12-14 []  local</span></span>
+font-style: inherit;">#&gt;  jsonlite       2.0.0      2025-03-27 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-39"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  lifecycle     1.0.4    2023-11-07 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  knitr          1.51       2025-12-20 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-40"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  magrittr      2.0.3    2022-03-30 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  labeling       0.4.3      2023-08-29 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-41"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  munsell       0.5.1    2024-04-01 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  legendry     * 0.3.0      2026-05-12 []  local</span></span>
 <span id="cb4-42"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  pillar        1.9.0    2023-03-22 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  lifecycle      1.0.5      2026-01-08 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-43"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  pkgconfig     2.0.3    2019-09-22 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  magrittr       2.0.5      2026-04-04 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-44"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  plyr          1.8.9    2023-10-02 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  otel           0.2.0      2025-08-29 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-45"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  R6            2.5.1    2021-08-19 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  pillar         1.11.1     2025-09-17 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-46"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  ragg          1.3.3    2024-09-11 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  pkgconfig      2.0.3      2019-09-22 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-47"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  Rcpp          1.0.13-1 2024-11-02 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  plyr           1.8.9      2023-10-02 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-48"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  reshape2      1.4.4    2020-04-09 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  R6             2.6.1      2025-02-15 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-49"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  rlang         1.1.4    2024-06-04 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  ragg           1.5.2      2026-03-23 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-50"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  rmarkdown     2.29     2024-11-04 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  RColorBrewer   1.1-3      2022-04-03 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-51"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  rstudioapi    0.17.1   2024-10-22 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  Rcpp           1.1.1-1.1  2026-04-24 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-52"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  scales        1.3.0    2023-11-28 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  reshape2       1.4.5      2025-11-12 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-53"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  sessioninfo   1.2.2    2021-12-06 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  rlang          1.2.0      2026-04-06 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-54"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  stringi       1.8.4    2024-05-06 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  rmarkdown      2.31       2026-03-26 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-55"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  stringr       1.5.1    2023-11-14 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  rstudioapi     0.18.0     2026-01-16 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-56"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  systemfonts   1.1.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  S7             0.2.2      2026-04-22 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-57"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  textshaping   0.4.1    2024-12-06 []  CRAN (R 4.4.2)</span></span>
+font-style: inherit;">#&gt;  scales         1.4.0      2025-04-24 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-58"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  tibble        3.2.1    2023-03-20 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  sessioninfo    1.2.3      2025-02-05 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-59"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  tidyselect    1.2.1    2024-03-11 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  stringi        1.8.7      2025-03-27 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-60"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  utf8          1.2.4    2023-10-22 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  stringr        1.6.0      2025-11-04 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-61"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  vctrs         0.6.5    2023-12-01 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  systemfonts    1.3.2      2026-03-05 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-62"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  viridisLite   0.4.2    2023-05-02 []  CRAN (R 4.4.0)</span></span>
+font-style: inherit;">#&gt;  textshaping    1.0.5      2026-03-06 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-63"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  withr         3.0.2    2024-10-28 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  tibble         3.3.1      2026-01-11 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-64"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  xfun          0.49     2024-10-31 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  tidyselect     1.2.1      2024-03-11 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-65"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt;  yaml          2.3.10   2024-07-26 []  CRAN (R 4.4.1)</span></span>
+font-style: inherit;">#&gt;  vctrs          0.7.3      2026-04-11 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-66"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt; </span></span>
+font-style: inherit;">#&gt;  viridisLite    0.4.3      2026-02-04 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-67"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt; </span></span>
+font-style: inherit;">#&gt;  withr          3.0.2      2024-10-28 []  CRAN (R 4.6.0)</span></span>
 <span id="cb4-68"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#&gt; ──────────────────────────────────────────────────────────────────────────────</span></span></code></pre></div>
+font-style: inherit;">#&gt;  xfun           0.57       2026-03-20 []  CRAN (R 4.6.0)</span></span>
+<span id="cb4-69"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  yaml           2.3.12     2025-12-10 []  CRAN (R 4.6.0)</span></span>
+<span id="cb4-70"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; </span></span>
+<span id="cb4-71"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt;  * ── Packages attached to the search path.</span></span>
+<span id="cb4-72"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; </span></span>
+<span id="cb4-73"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#&gt; ──────────────────────────────────────────────────────────────────────────────</span></span></code></pre></div></div>
 </details>
 </div>
 
@@ -656,11 +1466,11 @@ font-style: inherit;">#&gt; ─────────────────�
 </p>
 <p>I’m glad to announce that the <a href="https://teunbrand.github.io/legendry/">legendry</a> package has landed on <a href="https://cran.r-project.org/package=legendry">CRAN</a>! It is a <a href="https://ggplot2.tidyverse.org/">ggplot2</a> extension package, focussed on expanding the guide options. If you’re looking to try out legendry yourself, you can install it with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"legendry"</span>)</span></code></pre></div>
+font-style: inherit;">"legendry"</span>)</span></code></pre></div></div>
 </div>
 <p>I like plot annotations. Guides are among the most important plot annotations, as they instruct an observer on how a graphic should be interpreted. They are essential in getting the data to divulge their story.</p>
 <p>I’ve always found it hard to place annotations outside the panels of a plot and usually resorted to post-editing the figures in vector graphics software such as Adobe Illustrator to nicely place these. However, as people might be aware, it can take several iterations to get from the first serious figure to the final figure you use in your communication. This makes editing the figures every time very cumbersome. In addition, it is not reproducible, so we should aim to incorporate some flexibility in annotating our figures. This package is my attempt at that.</p>
@@ -678,7 +1488,7 @@ font-style: inherit;">"legendry"</span>)</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="scale-interaction">Scale interaction</h3>
 <p>Perhaps the most gentle introduction is legendry is that you now have the power to intervene in what scales pass on to guides. Most guides in legendry accept a <code>key</code> argument, that you can customise to some degree. You can read more in the <a href="https://teunbrand.github.io/legendry/articles/keys.html">vignette</a>, but here are three examples using axes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(legendry)</span>
 <span id="cb2-2"><span class="co" style="color: #5E5E5E;
@@ -812,7 +1622,7 @@ font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"minutes"</span></span>
 <span id="cb2-20">    )</span>
-<span id="cb2-21">  )</span></code></pre></div>
+<span id="cb2-21">  )</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -826,7 +1636,7 @@ font-style: inherit;">"minutes"</span></span>
 <h3 class="anchored" data-anchor-id="complete-guides">Complete guides</h3>
 <p>The package has a few ‘complete’ guides that are drop-in replacements for ggplot2’s guides. Sometimes, these attempt to literally mirror ggplot2’s guides, give or take a few tweaks, like <code>guide_axis_base()</code> or <code>guide_legend_base()</code>. Other times, these convey novel relations between items, like <code>guide_axis_nested()</code> useful for indicating ranges, or <code>guide_legend_groups()</code> for indicating groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">food <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">food <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -978,7 +1788,7 @@ background-color: null;
 font-style: inherit;"># Global theme</span></span>
 <span id="cb3-23">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -993,7 +1803,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="composed-guides">Composed guides</h3>
 <p>The last idea is that we should be able to assemble complicated guides from simpler parts. There are ways to make regular guides, like <code>guide_axis_base()</code>, or even simpler guides, like <code>primitive_bracket()</code> and combine these to build rich annotations. The way guides are combined is using <code>compose_*()</code> functions. For example <code>compose_ontop()</code> will overlay two guides, whereas <code>compose_stack()</code> will draw the second guide after the first guide. Moreover, you can have compositions inside compositions, so there is some room for creativity here. It is somewhat of a tougher task to get right, so I’ve tried to elaborate some more in the <a href="https://teunbrand.github.io/legendry/articles/guide_composition.html">vignette</a>. At any rate, here is an example of how guide composition can work.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">air_dates <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">air_dates <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1150,7 +1960,7 @@ font-style: inherit;">guides</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">compose_stack</span>(ontop, president_guide))</span></code></pre></div>
+font-style: inherit;">compose_stack</span>(ontop, president_guide))</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

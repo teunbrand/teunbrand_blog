@@ -1,1 +1,13 @@
 /* css styles */
+.quarto-title-banner {
+  background-position: center center;
+  background-size: cover;
+}
+.image-credit {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: -6rem;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
