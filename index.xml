@@ -24,7 +24,7 @@
 <div class="column-screen-right image-credit">
 <p>Photo by <a href="https://www.pexels.com/photo/connect-four-toy-on-table-8762743/">Kevin Malik</a> on pexels</p>
 </div>
-<p>As you may have noticed from my deluge of posts across the past year: it has been a while for one of these. This time around, I’m swinging by to announce that legendry 0.3.0 has nestled itself on CRAN! I’ll be going over some of the new stuff, and some old stuff that is accruing in legendry. I’ll not wax poetically about all of them, so let’s quickly go to the plotting bits of the post.</p>
+<p>As you may have noticed from my deluge of posts across the past year: it has been a while for one of these. This time around, I’m swinging by to announce that <a href="https://teunbrand.github.io/legendry/">legendry</a> 0.3.0 has nestled itself on CRAN! I’ll be going over some of the new stuff, and some old stuff that is accruing in legendry. I’ll not wax poetically about all of them, so let’s quickly go to the plotting bits of the post.</p>
 <section id="side-plot" class="level2">
 <h2 class="anchored" data-anchor-id="side-plot">Side plot</h2>
 <p>Arriving at the truly new stuff, the is now <code>guide_axis_plot()</code>. The main thing the guide does is trying to harmonise the shared axes.</p>
