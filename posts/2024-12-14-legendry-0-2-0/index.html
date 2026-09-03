@@ -217,15 +217,12 @@ background-size: cover;
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<div class="column-screen-right image-credit">
-<p>Photo by <a href="https://www.pexels.com/photo/photo-of-christmas-balls-3224164/">Hert Niks</a> on pexels</p>
-</div>
 <p>I now have the awkward pride of announcing a fresh update to an already new package, barely a month after its release. On the one hand I did a little bit of future-proofing, hopefully preventing it from being kicked out of CRAN in the next half year. On the other hand, I also developed a few features that I’m excited to share!</p>
 <section id="bubbles" class="level2">
 <h2 class="anchored" data-anchor-id="bubbles">Bubbles</h2>
@@ -326,78 +323,73 @@ background-size: cover;
 <details class="code-fold">
 <summary>Session info</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>si <span class="ot">&lt;-</span> sessioninfo<span class="sc">::</span><span class="fu">session_info</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in system2("quarto", "-V", stdout = TRUE, env = paste0("TMPDIR=", :</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; running command '"quarto"</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TMPDIR=C:/Users/Teun/AppData/Local/Temp/RtmpyYnahV/filef87f0143dd -V' had</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; status 1</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Deidentifying paths on my personal machine</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>si<span class="sc">$</span>packages<span class="sc">$</span>library <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>si<span class="sc">$</span>platform<span class="sc">$</span>pandoc <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(si)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  setting  value</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  version  R version 4.6.0 (2026-04-24 ucrt)</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  os       Windows 11 x64 (build 26200)</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  system   x86_64, mingw32</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ui       RTerm</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  language (EN)</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  collate  English_United Kingdom.utf8</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ctype    English_United Kingdom.utf8</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tz       Europe/Amsterdam</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  date     2026-05-13</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  quarto   NA @ C:\\Users\\Teun\\AppData\\Local\\Programs\\Quarto\\bin\\quarto.exe</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  package      * version    date (UTC) lib source</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  cli            3.6.6      2026-04-09 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  digest         0.6.39     2025-11-19 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  dplyr          1.2.1      2026-04-03 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  evaluate       1.0.5      2025-08-27 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  farver         2.1.2      2024-05-13 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  fastmap        1.2.0      2024-05-15 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  gapminder      1.0.1      2025-06-12 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  generics       0.1.4      2025-05-09 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ggplot2      * 4.0.3.9000 2026-05-10 []  local</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  glue           1.8.1      2026-04-17 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  gtable         0.3.6      2024-10-25 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  htmltools      0.5.9      2025-12-04 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  htmlwidgets    1.6.4      2023-12-06 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  jsonlite       2.0.0      2025-03-27 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  knitr          1.51       2025-12-20 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  labeling       0.4.3      2023-08-29 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  legendry     * 0.3.0      2026-05-12 []  local</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  lifecycle      1.0.5      2026-01-08 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  magrittr       2.0.5      2026-04-04 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  otel           0.2.0      2025-08-29 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  pillar         1.11.1     2025-09-17 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  pkgconfig      2.0.3      2019-09-22 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  plyr           1.8.9      2023-10-02 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  R6             2.6.1      2025-02-15 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ragg           1.5.2      2026-03-23 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  RColorBrewer   1.1-3      2022-04-03 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Rcpp           1.1.1-1.1  2026-04-24 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  reshape2       1.4.5      2025-11-12 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rlang          1.2.0      2026-04-06 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rmarkdown      2.31       2026-03-26 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rstudioapi     0.18.0     2026-01-16 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  S7             0.2.2      2026-04-22 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  scales         1.4.0      2025-04-24 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  sessioninfo    1.2.3      2025-02-05 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  stringi        1.8.7      2025-03-27 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  stringr        1.6.0      2025-11-04 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  systemfonts    1.3.2      2026-03-05 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  textshaping    1.0.5      2026-03-06 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tibble         3.3.1      2026-01-11 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tidyselect     1.2.1      2024-03-11 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  vctrs          0.7.3      2026-04-11 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  viridisLite    0.4.3      2026-02-04 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  withr          3.0.2      2024-10-28 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  xfun           0.57       2026-03-20 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  yaml           2.3.12     2025-12-10 []  CRAN (R 4.6.0)</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * ── Packages attached to the search path.</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ──────────────────────────────────────────────────────────────────────────────</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Deidentifying paths on my personal machine</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>si<span class="sc">$</span>packages<span class="sc">$</span>library <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>si<span class="sc">$</span>platform<span class="sc">$</span>pandoc <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(si)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  setting  value</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  version  R version 4.4.2 (2024-10-31 ucrt)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  os       Windows 11 x64 (build 22631)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  system   x86_64, mingw32</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ui       RTerm</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  language (EN)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  collate  English_Netherlands.utf8</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ctype    English_Netherlands.utf8</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tz       Europe/Amsterdam</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  date     2024-12-14</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  package     * version  date (UTC) lib source</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  cli           3.6.3    2024-06-21 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  colorspace    2.1-1    2024-07-26 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  digest        0.6.37   2024-08-19 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  dplyr         1.1.4    2023-11-17 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  evaluate      1.0.1    2024-10-10 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  fansi         1.0.6    2023-12-08 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  farver        2.1.2    2024-05-13 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  fastmap       1.2.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  gapminder     1.0.0    2023-03-10 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  generics      0.1.3    2022-07-05 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ggplot2     * 3.5.1    2024-04-23 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  glue          1.8.0    2024-09-30 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  gtable        0.3.6    2024-10-25 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  htmltools     0.5.8.1  2024-04-04 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  htmlwidgets   1.6.4    2023-12-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  jsonlite      1.8.9    2024-09-20 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  knitr         1.49     2024-11-08 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  labeling      0.4.3    2023-08-29 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  legendry    * 0.2.0    2024-12-14 []  local</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  lifecycle     1.0.4    2023-11-07 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  magrittr      2.0.3    2022-03-30 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  munsell       0.5.1    2024-04-01 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  pillar        1.9.0    2023-03-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  pkgconfig     2.0.3    2019-09-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  plyr          1.8.9    2023-10-02 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  R6            2.5.1    2021-08-19 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ragg          1.3.3    2024-09-11 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Rcpp          1.0.13-1 2024-11-02 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  reshape2      1.4.4    2020-04-09 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rlang         1.1.4    2024-06-04 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rmarkdown     2.29     2024-11-04 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  rstudioapi    0.17.1   2024-10-22 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  scales        1.3.0    2023-11-28 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  sessioninfo   1.2.2    2021-12-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  stringi       1.8.4    2024-05-06 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  stringr       1.5.1    2023-11-14 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  systemfonts   1.1.0    2024-05-15 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  textshaping   0.4.1    2024-12-06 []  CRAN (R 4.4.2)</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tibble        3.2.1    2023-03-20 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  tidyselect    1.2.1    2024-03-11 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  utf8          1.2.4    2023-10-22 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  vctrs         0.6.5    2023-12-01 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  viridisLite   0.4.2    2023-05-02 []  CRAN (R 4.4.0)</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  withr         3.0.2    2024-10-28 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  xfun          0.49     2024-10-31 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  yaml          2.3.10   2024-07-26 []  CRAN (R 4.4.1)</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ──────────────────────────────────────────────────────────────────────────────</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 
